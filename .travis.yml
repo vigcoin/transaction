@@ -20,6 +20,7 @@ cache:
 before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y
   - source "$HOME/.cargo/env"
+  - npm install -g neon-cli
 
 script:
   - npm run coverage # jest test with coverage flag does coverage too
