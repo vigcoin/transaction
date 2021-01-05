@@ -4,9 +4,9 @@ import {
   IInputSignature,
   ITransaction,
   ITransactionInput,
-  uint64
-} from "@vigcoin/types";
-import { decompose } from "./util";
+  uint64,
+} from '@vigcoin/types';
+import { decompose } from './util';
 
 export class TransactionAmount {
   public static getInput(transaction: ITransaction) {
@@ -129,7 +129,7 @@ export class TransactionAmount {
     const diff = str.length - parameters.CRYPTONOTE_DISPLAY_DECIMAL_POINT;
     if (diff < 0) {
       for (let i = 0; i <= Math.abs(diff); i++) {
-        str = "0" + str;
+        str = '0' + str;
       }
     }
     str =
@@ -137,7 +137,7 @@ export class TransactionAmount {
         0,
         str.length - parameters.CRYPTONOTE_DISPLAY_DECIMAL_POINT
       ) +
-      "." +
+      '.' +
       str.substring(str.length - parameters.CRYPTONOTE_DISPLAY_DECIMAL_POINT);
     return str;
   }

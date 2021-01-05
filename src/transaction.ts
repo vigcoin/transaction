@@ -1,5 +1,5 @@
-import { CNFashHash } from "@vigcoin/crypto";
-import { BufferStreamReader, BufferStreamWriter } from "@vigcoin/serializer";
+import { CNFashHash } from '@vigcoin/crypto';
+import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
 import {
   ETransactionIOType,
   IHash,
@@ -8,11 +8,11 @@ import {
   ITransactionEntry,
   ITransactionInput,
   ITransactionPrefix,
-  usize
-} from "@vigcoin/types";
-import assert = require("assert");
+  usize,
+} from '@vigcoin/types';
+import assert = require('assert');
 
-import { TransactionPrefix } from "./prefix";
+import { TransactionPrefix } from './prefix';
 
 // tslint:disable-next-line: max-classes-per-file
 export class Transaction {
@@ -75,7 +75,7 @@ export class Transaction {
     const prefix = TransactionPrefix.read(reader);
     return {
       prefix,
-      signatures: Transaction.readSignatures(reader, prefix)
+      signatures: Transaction.readSignatures(reader, prefix),
     };
   }
 
@@ -93,7 +93,7 @@ export class Transaction {
     return {
       tx,
       // tslint:disable-next-line:object-literal-sort-keys
-      globalOutputIndexes
+      globalOutputIndexes,
     };
   }
 
@@ -123,7 +123,7 @@ export class Transaction {
 
   public static hash(transaction: ITransaction): IHash {
     const hashStr = CNFashHash(Transaction.toBuffer(transaction));
-    const hash = Buffer.from(hashStr, "hex");
+    const hash = Buffer.from(hashStr, 'hex');
     return hash;
   }
 

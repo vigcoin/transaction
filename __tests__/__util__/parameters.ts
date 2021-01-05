@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import * as assert from 'assert';
 
 export namespace parameters {
   export const CRYPTONOTE_MAX_BLOCK_NUMBER = 500000000;
@@ -21,7 +21,7 @@ export namespace parameters {
   // Premined percentage
   export const PREMINED_PERCENTAGE = 20;
   export const EMISSION_SPEED_FACTOR = 18;
-  assert(EMISSION_SPEED_FACTOR <= 8 * 8, "Bad EMISSION_SPEED_FACTOR");
+  assert(EMISSION_SPEED_FACTOR <= 8 * 8, 'Bad EMISSION_SPEED_FACTOR');
 
   // TODO: Define number of blocks for block size median calculation
   export const CRYPTONOTE_REWARD_BLOCKS_WINDOW = 100;
@@ -45,7 +45,7 @@ export namespace parameters {
 
   assert(
     2 * DIFFICULTY_CUT <= DIFFICULTY_WINDOW - 2,
-    "Bad DIFFICULTY_WINDOW or DIFFICULTY_CUT"
+    'Bad DIFFICULTY_WINDOW or DIFFICULTY_CUT'
   );
 
   export const MAX_BLOCK_SIZE_INITIAL = 20 * 1024;

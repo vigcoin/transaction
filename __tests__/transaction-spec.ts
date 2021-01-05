@@ -1,17 +1,16 @@
-import { Hash } from "@vigcoin/crypto";
-import { BufferStreamReader, BufferStreamWriter } from "@vigcoin/serializer";
-import * as assert from "assert";
-import { readFileSync } from "fs";
-import * as path from "path";
-import { TransactionAmount } from "../src/amount";
-import { Transaction } from "../src//index";
-import { parameters } from "./__util__/parameters";
+import { Hash } from '@vigcoin/crypto';
+import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
+import * as assert from 'assert';
+import { readFileSync } from 'fs';
+import * as path from 'path';
+import { TransactionAmount } from '../src/amount';
+import { Transaction } from '../src//index';
+import { parameters } from './__util__/parameters';
 
-
-describe("transaction test", () => {
-  it("should read from buffer", () => {
+describe('transaction test', () => {
+  it('should read from buffer', () => {
     const buffer = readFileSync(
-      path.resolve(__dirname, "./data/transaction-sample-1.dat")
+      path.resolve(__dirname, './data/transaction-sample-1.dat')
     );
     const hash = Hash.from(buffer);
     const reader = new BufferStreamReader(buffer);
@@ -25,9 +24,9 @@ describe("transaction test", () => {
     assert(hash.equals(hash2));
   });
 
-  it("should read from buffer", () => {
+  it('should read from buffer', () => {
     const buffer = readFileSync(
-      path.resolve(__dirname, "./data/transaction-sample-2.dat")
+      path.resolve(__dirname, './data/transaction-sample-2.dat')
     );
     const hash = Hash.from(buffer);
     const reader = new BufferStreamReader(buffer);
@@ -50,9 +49,9 @@ describe("transaction test", () => {
     assert(!TransactionAmount.isFusion(transaction, parameters));
   });
 
-  it("should read from buffer and added by payment 1", () => {
+  it('should read from buffer and added by payment 1', () => {
     const buffer = readFileSync(
-      path.resolve(__dirname, "./data/transaction-with-nonce.dat")
+      path.resolve(__dirname, './data/transaction-with-nonce.dat')
     );
     const realHash = Buffer.from([
       0x8e,
@@ -86,7 +85,7 @@ describe("transaction test", () => {
       0xae,
       0x8b,
       0x50,
-      0x83
+      0x83,
     ]);
     const hash = Hash.from(buffer);
     hash.equals(realHash);
@@ -100,9 +99,9 @@ describe("transaction test", () => {
     assert(hash.equals(hash2));
   });
 
-  it("should read from buffer and added by payment 2", () => {
+  it('should read from buffer and added by payment 2', () => {
     const buffer = readFileSync(
-      path.resolve(__dirname, "./data/transaction-with-padding.dat")
+      path.resolve(__dirname, './data/transaction-with-padding.dat')
     );
     const realHash = Buffer.from([
       0x72,
@@ -136,7 +135,7 @@ describe("transaction test", () => {
       0xca,
       0x20,
       0x58,
-      0x2f
+      0x2f,
     ]);
     const hash = Hash.from(buffer);
     hash.equals(realHash);

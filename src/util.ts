@@ -23,7 +23,11 @@ export function decompose(amount: uint64, dustThreshould: uint32) {
   return chunks;
 }
 
-export function isTxUnlock(unlockTime: uint64, height: uint64, parameters: any) {
+export function isTxUnlock(
+  unlockTime: uint64,
+  height: uint64,
+  parameters: any
+) {
   if (unlockTime < parameters.CRYPTONOTE_MAX_BLOCK_NUMBER) {
     // Interpreted as block index
     const blockHeight =
