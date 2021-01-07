@@ -39,7 +39,8 @@
   "devDependencies": {
     "@types/jest": "^23.3.3",
     "@types/node": "^10.11.4",
-    "coveralls": "^3.0.2",
+    "coveralls": "^3.1.0",
+    "handlebars": "4.5.3",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
     "rimraf": "^2.6.2",
@@ -54,6 +55,8 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "modulePathIgnorePatterns": ["__util__"]
+    "modulePathIgnorePatterns": [
+      "__util__"
+    ]
   }
 }

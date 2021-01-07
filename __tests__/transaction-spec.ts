@@ -31,6 +31,9 @@ describe('transaction test', () => {
     const hash = Hash.from(buffer);
     const reader = new BufferStreamReader(buffer);
     const transaction = Transaction.read(reader);
+
+    const isFusion = TransactionAmount.isFusion(transaction, parameters);
+    console.log(isFusion);
     const writer = new BufferStreamWriter(Buffer.alloc(0));
     Transaction.write(writer, transaction);
     const buffer2 = writer.getBuffer();
@@ -148,4 +151,6 @@ describe('transaction test', () => {
     const hash2 = Hash.from(buffer2);
     assert(hash.equals(hash2));
   });
+
+  it('should create transaction.', () => {});
 });
