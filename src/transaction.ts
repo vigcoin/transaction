@@ -1,16 +1,23 @@
-import { CNFashHash } from '@vigcoin/crypto';
+import { CNFashHash, Key } from '@vigcoin/crypto';
 import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
 import {
   ETransactionIOType,
   IHash,
+  IPrivateKey,
   ISignature,
   ITransaction,
   ITransactionEntry,
   ITransactionInput,
   ITransactionPrefix,
+  uint8,
   usize,
 } from '@vigcoin/types';
 import assert = require('assert');
+import {
+  ITransactionExtraPublicKey,
+  ITransactionExtraTag,
+  TransactionExtra,
+} from './extra';
 
 import { TransactionPrefix } from './prefix';
 
@@ -129,5 +136,42 @@ export class Transaction {
 
   public static size(transaction: ITransaction): usize {
     return Transaction.toBuffer(transaction).length;
+  }
+
+  public transction?: ITransaction;
+  public extra?: TransactionExtra;
+  public hash?: IHash;
+  public secretKey?: IPrivateKey;
+  public version?: uint8;
+
+  constructor(version: uint8, create?: boolean) {
+    if (create) {
+      this.version = version;
+      const txKeys = Key.generateKeys();
+      const pk: ITransactionExtraPublicKey = {
+        key: txKeys.public,
+      };
+
+      const extra = new TransactionExtra();
+      extra.add({
+        data: pk,
+        tag: ITransactionExtraTag.PUBKEY,
+      });
+
+      const prefix: ITransactionPrefix = {
+        extra: extra.toBuffer(),
+        inputs: [],
+        outputs: [],
+        unlockTime: 0,
+        version,
+      };
+
+      const transaction: ITransaction = {
+        prefix,
+        signatures: [],
+      };
+      this.transction = transaction;
+      this.secretKey = txKeys.secret;
+    }
   }
 }
