@@ -7,17 +7,15 @@ import {
   ISignature,
   ITransaction,
   ITransactionEntry,
+  ITransactionExtraPublicKey,
+  ITransactionExtraTag,
   ITransactionInput,
   ITransactionPrefix,
   uint8,
   usize,
 } from '@vigcoin/types';
 import assert = require('assert');
-import {
-  ITransactionExtraPublicKey,
-  ITransactionExtraTag,
-  TransactionExtra,
-} from './extra';
+import { TransactionExtra } from './extra';
 
 import { TransactionPrefix } from './prefix';
 

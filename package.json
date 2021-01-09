@@ -33,7 +33,7 @@
   "dependencies": {
     "@vigcoin/crypto": "^0.6.5",
     "@vigcoin/serializer": "^0.1.1",
-    "@vigcoin/types": "^0.1.1",
+    "@vigcoin/types": "^0.1.2",
     "@vigcoin/util": "^0.2.1"
   },
   "devDependencies": {

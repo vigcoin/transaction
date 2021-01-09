@@ -1,35 +1,14 @@
 import { IPublicKey } from '@vigcoin/crypto';
 import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
-import { usize } from '@vigcoin/types';
-
-export const TX_EXTRA_PADDING_MAX_COUNT = 255;
-export const TX_EXTRA_NONCE_MAX_COUNT = 255;
-
-export enum ITransactionExtraTag {
-  PADDING = 0x00,
-  PUBKEY = 0x01,
-  NONCE = 0x02,
-}
-
-export interface ITransactionExtraPadding {
-  size: usize;
-}
-
-export interface ITransactionExtraPublicKey {
-  key: IPublicKey;
-}
-
-export interface ITransactionExtraNonce {
-  nonce: Buffer;
-}
-
-export interface ITransactionExtra {
-  tag: ITransactionExtraTag;
-  data:
-    | ITransactionExtraNonce
-    | ITransactionExtraPublicKey
-    | ITransactionExtraPadding;
-}
+import {
+  ITransactionExtra,
+  ITransactionExtraNonce,
+  ITransactionExtraPadding,
+  ITransactionExtraPublicKey,
+  ITransactionExtraTag,
+  TX_EXTRA_NONCE_MAX_COUNT,
+  TX_EXTRA_PADDING_MAX_COUNT,
+} from '@vigcoin/types';
 
 export class TransactionExtra {
   public static write(

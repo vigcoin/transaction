@@ -2,10 +2,10 @@ import { Key } from '@vigcoin/crypto';
 import {
   ITransactionExtra,
   ITransactionExtraTag,
-  TransactionExtra,
   TX_EXTRA_NONCE_MAX_COUNT,
   TX_EXTRA_PADDING_MAX_COUNT,
-} from '../src/index';
+} from '@vigcoin/types';
+import { TransactionExtra } from '../src/index';
 
 test('Should have create extra successfuly', () => {
   const extra1: ITransactionExtra = {
