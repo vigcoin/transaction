@@ -1,12 +1,10 @@
-import { HASH_LENGTH, IPublicKey } from '@vigcoin/crypto';
+import { IPublicKey } from '@vigcoin/crypto';
 import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
-import { ITransaction, usize } from '@vigcoin/types';
+import { usize } from '@vigcoin/types';
 import * as assert from 'assert';
 
 export const TX_EXTRA_PADDING_MAX_COUNT = 255;
 export const TX_EXTRA_NONCE_MAX_COUNT = 255;
-
-export const TX_EXTRA_NONCE_PAYMENT_ID = 0x00;
 
 export enum ITransactionExtraTag {
   PADDING = 0x00,
@@ -133,20 +131,6 @@ export class TransactionExtra {
       }
     }
     return nonce;
-  }
-
-  public static getPaymentId(tx: ITransaction) {
-    const nonce = TransactionExtra.getNonce(tx.prefix.extra);
-    if (!nonce) {
-      return;
-    }
-    if (nonce.length !== HASH_LENGTH + 1) {
-      return;
-    }
-    if (TX_EXTRA_NONCE_PAYMENT_ID !== nonce[0]) {
-      return;
-    }
-    return nonce.slice(1);
   }
 
   private fields: ITransactionExtra[] = [];
