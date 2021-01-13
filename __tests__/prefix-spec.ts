@@ -1,7 +1,10 @@
 // import { Key, Wallet } from '@vigcoin/crypto';
+import { BufferStreamReader, BufferStreamWriter } from '@vigcoin/serializer';
 import {
+  ETransactionIOType,
+  ITransactionInput,
   // ETransactionIOType,
-  // IInputBase,
+  IInputBase,
   // IInputKey,
   // ITransactionInput,
   ITransactionPrefix,
@@ -22,24 +25,28 @@ test('Should have create prefix', () => {
 
   const hash = TransactionPrefix.hash(prefix);
   expect(hash.length > 0).toBeTruthy();
+});
 
-  // const inputBase: IInputBase = {
-  //   blockIndex: 1,
-  // };
+test('Should read / write input base', () => {
+  const input1: ITransactionInput = {
+    tag: ETransactionIOType.BASE,
+    target: {
+      blockIndex: 1,
+    },
+  };
 
-  // const sender = new Wallet();
-  // // CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX
-  // const addressPrefix = 0x3d;
-  // sender.create(addressPrefix);
-  // const keys = sender.getPrivateKeys();
-  // const publicKeys = Key.secretToPublic(Buffer.from(keys.spend, 'hex'));
-  // const viewPublicKeys = Key.secretToPublic(Buffer.from(keys.view, 'hex'));
-  // const sendAddress = sender.toAddress(0x3d);
+  const writer = new BufferStreamWriter();
 
-  // const extraKey = Key.generateKeys();
-  // const inputKey: IInputKey = {};
+  TransactionPrefix.writeInput(writer, input1);
+  const buffer = writer.getBuffer();
 
-  // const input: ITransactionInput = {
-  //   tag: ETransactionIOType.BASE
-  // };
+  const reader = new BufferStreamReader(buffer);
+
+  const input11: ITransactionInput = TransactionPrefix.readInput(reader);
+
+  expect(input11.tag === input1.tag).toBeTruthy();
+  expect(
+    (input11.target as IInputBase).blockIndex ===
+      (input1.target as IInputBase).blockIndex
+  ).toBeTruthy();
 });
