@@ -6,6 +6,7 @@ import {
   IInputKey,
   IInputSignature,
   IOutputKey,
+  IOutputSignature,
   ITransactionInput,
   ITransactionInputTarget,
   ITransactionOutput,
@@ -118,13 +119,20 @@ export class TransactionPrefix {
         break;
       // IOutputSignature
       case ETransactionIOType.SIGNATURE:
-      // output = {
-      //   amount,
-      //   tag,
-      //   target: {
-
-      //   }
-      // };
+        const count = reader.readVarint();
+        const keys = [];
+        for (let i = 0; i < count; i++) {
+          keys.push(reader.readHash());
+        }
+        output = {
+          amount,
+          tag,
+          target: {
+            count,
+            keys,
+          },
+        };
+        break;
       default:
         throw new Error('Reading unknown ouput variant tag');
     }
@@ -137,19 +145,19 @@ export class TransactionPrefix {
   ) {
     writer.writeVarint(output.amount);
     writer.writeUInt8(output.tag);
+    let target;
     switch (output.tag) {
-      // IOutputKey
-      case 0x02:
-        const target = output.target as IOutputKey;
+      case ETransactionIOType.KEY:
+        target = output.target as IOutputKey;
         writer.writeHash(target.key);
         break;
-      case 0x03:
-      // output = {
-      //   amount,
-      //   target: {
-
-      //   }
-      // };
+      case ETransactionIOType.SIGNATURE:
+        target = output.target as IOutputSignature;
+        writer.writeVarint(target.count);
+        for (let i = 0; i < target.count; i++) {
+          writer.writeHash(target.keys[i]);
+        }
+        break;
       default:
         throw new Error('Writing unknown output variant tag');
     }
@@ -158,22 +166,12 @@ export class TransactionPrefix {
   public static readExtra(reader: BufferStreamReader) {
     const size = reader.readVarint();
     const buffer = reader.read(size);
-    // const length = buffer.length;
-    // for (let i = 0; i < length / 2; i++) {
-    //   const temp = buffer[i];
-    //   buffer[i] = buffer[length - 1 - i];
-    //   buffer[length - 1 - i] = temp;
-    // }
     return buffer;
   }
 
   public static writeExtra(writer: BufferStreamWriter, extra: Buffer) {
     writer.writeVarint(extra.length);
-    // for (let i = 0; i < extra.length / 2; i++) {
-    //   const temp = extra[i];
-    //   extra[i] = extra[extra.length - 1 - i];
-    //   extra[extra.length - 1 - i] = temp;
-    // }
+
     writer.write(extra);
   }
 
