@@ -1,4 +1,5 @@
 import { Key } from '@vigcoin/crypto';
+import { BufferStreamWriter } from '@vigcoin/serializer';
 import {
   ITransactionExtra,
   ITransactionExtraTag,
@@ -136,4 +137,36 @@ test('Should fail due to wrong padding size', () => {
 
   const buffer = extraClass.toBuffer();
   expect(buffer.length === 0).toBeTruthy();
+});
+
+test('Should add public key', () => {
+  const key = Buffer.allocUnsafe(32);
+  const extra1: ITransactionExtra = {
+    tag: ITransactionExtraTag.PUBKEY,
+    data: {
+      key,
+    },
+  };
+
+  const extra2: ITransactionExtra = {
+    tag: ITransactionExtraTag.NONCE,
+    data: {
+      nonce: key,
+    },
+  };
+
+  const extraLargeNonce = Buffer.allocUnsafe(TX_EXTRA_NONCE_MAX_COUNT + 1);
+
+  const writer = new BufferStreamWriter(Buffer.alloc(0));
+  TransactionExtra.addPublicKey(writer, key);
+
+  const writer1 = new BufferStreamWriter(Buffer.alloc(0));
+  expect(TransactionExtra.addNonce(writer1, key)).toBeTruthy();
+  expect(TransactionExtra.addNonce(writer1, extraLargeNonce)).toBeFalsy();
+  const key1 = TransactionExtra.getPublicKey(extra1);
+  expect(key1).toBeTruthy();
+  expect(key.equals(key1 as Buffer)).toBeTruthy();
+  expect(TransactionExtra.getPublicKey(extra2) === null).toBeTruthy();
+  expect(TransactionExtra.getNonce(extra1) === null).toBeTruthy();
+  expect(TransactionExtra.getNonce(extra2)?.equals(key)).toBeTruthy();
 });

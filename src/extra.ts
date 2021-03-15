@@ -109,6 +109,35 @@ export class TransactionExtra {
     return parsed;
   }
 
+  public static addPublicKey(writer: BufferStreamWriter, key: IPublicKey) {
+    writer.writeUInt8(ITransactionExtraTag.PUBKEY);
+    writer.writeHash(key);
+  }
+
+  public static addNonce(writer: BufferStreamWriter, nonce: Buffer) {
+    if (nonce.length > TX_EXTRA_NONCE_MAX_COUNT) {
+      return false;
+    }
+    writer.writeUInt8(ITransactionExtraTag.NONCE);
+    writer.writeUInt8(nonce.length);
+    writer.write(nonce);
+    return true;
+  }
+
+  public static getPublicKey(extra: ITransactionExtra) {
+    if (extra.tag === ITransactionExtraTag.PUBKEY) {
+      return (extra.data as ITransactionExtraPublicKey).key;
+    }
+    return null;
+  }
+
+  public static getNonce(extra: ITransactionExtra) {
+    if (extra.tag === ITransactionExtraTag.NONCE) {
+      return (extra.data as ITransactionExtraNonce).nonce;
+    }
+    return null;
+  }
+
   private fields: ITransactionExtra[] = [];
 
   public add(extra: ITransactionExtra) {
